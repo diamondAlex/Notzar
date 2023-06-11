@@ -1,0 +1,51 @@
+{
+  "name": "books",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "start": "webpack serve",
+    "serve": "nodemon ./server/index.js",
+    "up": "bin/dbmate up",
+    "down": "bin/dbmate drop",
+    "reset": "bin/dbmate drop && bin/dbmate up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diamondAlex/books.git"
+  },
+  "author": "Alexandre Diamond",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diamondAlex/books/issues"
+  },
+  "homepage": "https://github.com/diamondAlex/books#readme",
+  "dependencies": {
+    "@koa/cors": "^4.0.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "dotenv": "^8.2.0",
+    "koa": "^2.14.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^12.0.0",
+    "lodash": "^4.17.21",
+    "mariadb": "^2.5.3",
+    "nodemon": "^2.0.20",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "superagent": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/plugin-transform-runtime": "^7.14.3",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "eslint": "^8.42.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}

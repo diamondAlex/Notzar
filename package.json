@@ -7,9 +7,9 @@
     "test": "mocha test",
     "start": "webpack serve",
     "serve": "nodemon ./server/index.js",
-    "up": "bin/dbmate up",
-    "down": "bin/dbmate drop",
-    "reset": "bin/dbmate drop && bin/dbmate up"
+    "up": "dbmate up",
+    "down": "dbmate drop",
+    "reset": "dbmate drop && dbmate up"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,7 @@
     "@babel/preset-react": "^7.22.5",
     "babel-loader": "^8.0.6",
     "eslint": "^8.42.0",
+    "eslint-plugin-react": "^7.32.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.1",
     "webpack": "^5.38.1",

@@ -4,9 +4,11 @@ export default class ProjectDisplay extends Component{
 	constructor(props){
 		super(props)
 		this.processProps = this.processProps.bind(this)
+        console.log(props)
 	}
 
-	processProps(props){
+	processProps(){
+        let props = this.props
 		if(props.length != 0){
 			let projects = Object.keys(props)
 			let times = Object.values(props)
@@ -27,7 +29,7 @@ export default class ProjectDisplay extends Component{
 	render(){
 		return (
 			<div>
-				{this.processProps(this.props.data)}
+				{this.processProps()}
 			</div>
 		)
 	}

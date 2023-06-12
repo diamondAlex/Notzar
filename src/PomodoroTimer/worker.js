@@ -7,25 +7,27 @@ let paused_flag = false
 //prevents multiple timer from running
 let running = false
 
+
 onmessage = async function(e){
 	let {time,paused} = e.data
 	
 	paused_flag = paused
 	if(running == false){
-		runWorker(time)
+        let now = new Date().getTime();
+        target = now + time 
+		runWorker(target)
 	}
 }
 
-async function runWorker(time){
+async function runWorker(target){
 	running = true
-	while(time>0){
+	while(new Date().getTime() <= target){
+        console.log("still be timing")
 		await runTimer()
         console.log("IN TIMER")
-		if(!paused_flag){
-			time=time-MILLI_TO_SEC
-		}
-		if(time>=0){
-			postMessage(time)
+        let remainder = target - new Date().getTime()
+		if(remainder >= 0){
+			postMessage(remainder)
 		}
 	}
 	running = false

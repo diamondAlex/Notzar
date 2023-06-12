@@ -57,9 +57,7 @@ export default class PomodoroTimer extends Component{
 	}
 
 	startWorker(){
-        console.log(window.Worker())
 		this.worker = new Worker(new URL('./worker.js',import.meta.url))
-        console.log(window.Worker())
 
 		this.setState({
             work_mode:true,

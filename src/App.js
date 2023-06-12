@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import Books from './Books/Books'
-import Todos from './Todos/Todos'
-import Schedule from './Schedule/Schedule'
-import Workout from './Workout/Workout'
 import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
 import Test from './Test/Test'
 
 
 //Canvas that handles pages and page link
-class App extends Component {
+export default class App extends Component {
     constructor(){
         super()
         this.state = {
@@ -84,11 +81,3 @@ class App extends Component {
     } 
 }
 
-
-//setting up the root div in the index.html
-let div = document.createElement("div")
-let body = document.getElementsByTagName("body")[0]
-div.id = 'root'
-body.appendChild(div)
-
-ReactDOM.render(<App />, document.getElementById('root'));

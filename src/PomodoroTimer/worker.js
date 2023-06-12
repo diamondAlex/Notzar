@@ -1,34 +1,48 @@
-//wtf is BUFFER_RATIO
-const BUFFER_RATIO = 10
+//buffer ratio is the amount of time we run a setTimeout, the higher it is, the shorter the setTimeout
+const BUFFER_RATIO = 1000
 const MILLI_TO_SEC = 1000
 
-//prevents substracting time
-let paused_flag = false
 //prevents multiple timer from running
 let running = false
+
+let pauseFlag = false
+let unpauseFlag = false
 
 
 onmessage = async function(e){
 	let {time,paused} = e.data
-	
-	paused_flag = paused
+
+    pauseFlag = paused
+
 	if(running == false){
         let now = new Date().getTime();
-        target = now + time 
+        let target = now + time 
 		runWorker(target)
 	}
 }
 
 async function runWorker(target){
 	running = true
-	while(new Date().getTime() <= target){
-        console.log("still be timing")
-		await runTimer()
-        console.log("IN TIMER")
-        let remainder = target - new Date().getTime()
-		if(remainder >= 0){
-			postMessage(remainder)
+    let current = new Date().getTime()
+    let remainder
+
+	while(current <= target){
+        await runTimer()
+        if (!pauseFlag){
+            if(unpauseFlag){
+                unpauseFlag = false
+                target = new Date().getTime() + remainder
+            }
+            current = new Date().getTime()
+            remainder = target - current
+
+            if(remainder >= 0){
+                postMessage(remainder)
+            }
 		}
+        else{
+            unpauseFlag = true
+        }
 	}
 	running = false
 }

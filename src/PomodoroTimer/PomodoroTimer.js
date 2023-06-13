@@ -15,15 +15,26 @@ const background_color_pause = '#EF5252'
 
 const MIN_TO_MILLI = 60*1000
 
+function useStateWrap(state){
+    let [ value, func ] = useState(state)
+    let wrappedFunc = (updatedState) => {
+        let item = {}
+        item[value] = updatedState
+        localStorage.setItem(item)
+        func(updatedState)
+    }
+    return [ value, wrappedFunc ] 
+}
+
 export default function PomodoroTimer(){
-    const [ worker, setWorker] = useState(new Worker(new URL('./worker.js',import.meta.url)))
-    const [ time, setTime] = useState(0)
-    const [ work_intervals, setWork_intervals] = useState(0)
-    const [ recess_time, setRecess_time] = useState(0)
-    const [ interval_time, setInterval_time] = useState(0)
-    const [ paused, setPaused] = useState(false)
-    const [ work_mode, setWork_mode] = useState(true)
-    const [ background_color, setBackground_color] = useState('white')
+    const [ worker, setWorker ] = useState(new Worker(new URL('./worker.js',import.meta.url)))
+    const [ time, setTime ] = useState(0)
+    const [ work_intervals, setWork_intervals ] = useState(0)
+    const [ recess_time, setRecess_time ] = useState(0)
+    const [ interval_time, setInterval_time ] = useState(0)
+    const [ paused, setPaused ] = useState(false)
+    const [ work_mode, setWork_mode ] = useState(true)
+    const [ background_color, setBackground_color ] = useState('white')
 
     let audio = new Audio('public/test.mp3')
 	

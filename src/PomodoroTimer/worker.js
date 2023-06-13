@@ -13,7 +13,8 @@ onmessage = async function(e){
 	let {time,paused} = e.data
 
     pauseFlag = paused
-
+    console.log("in worker onmessage = " + time)
+    console.log(typeof(time))
 	if(running == false){
         let now = new Date().getTime();
         let target = now + time 
@@ -22,6 +23,7 @@ onmessage = async function(e){
 }
 
 async function runWorker(target){
+    console.log("target = " + target)
 	running = true
     let current = new Date().getTime()
     let remainder
@@ -37,6 +39,7 @@ async function runWorker(target){
             remainder = target - current
 
             if(remainder >= 0){
+                console.log("remainder = " + remainder)
                 postMessage(remainder)
             }
 		}

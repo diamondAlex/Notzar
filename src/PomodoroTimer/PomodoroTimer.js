@@ -1,12 +1,13 @@
 /*
- * Input time is in minutes.
- * time is in millisecond (all worker communication is in millisecond)
+ * TIME is in millisecond (all worker communication is in millisecond)
+ * DISPLAYED TIME is in minutes and seconds
  * By default, long pause will happen every 3 interval and will be 3x time
  * TODO: - In the last 10 seconds, display needs to be 0:09, not 0:9
  * 		- stop then start should reset paused to unpaused
  * 		- add a time slot related note/text field (ex: at 9:00 - feeling cute)
  */
 import React, { useState } from 'react'
+import useStateWrap from '../utils/useStateWrap'
 import TimeDisplay from './TimeDisplay'
 
 const background_color_work = '#7FFFD4'
@@ -15,26 +16,15 @@ const background_color_pause = '#EF5252'
 
 const MIN_TO_MILLI = 60*1000
 
-function useStateWrap(state){
-    let [ value, func ] = useState(state)
-    let wrappedFunc = (updatedState) => {
-        let item = {}
-        item[value] = updatedState
-        localStorage.setItem(item)
-        func(updatedState)
-    }
-    return [ value, wrappedFunc ] 
-}
-
 export default function PomodoroTimer(){
     const [ worker, setWorker ] = useState(new Worker(new URL('./worker.js',import.meta.url)))
-    const [ time, setTime ] = useState(0)
-    const [ work_intervals, setWork_intervals ] = useState(0)
-    const [ recess_time, setRecess_time ] = useState(0)
-    const [ interval_time, setInterval_time ] = useState(0)
-    const [ paused, setPaused ] = useState(false)
-    const [ work_mode, setWork_mode ] = useState(true)
-    const [ background_color, setBackground_color ] = useState('white')
+    const [ time, setTime ] = useStateWrap("time",0)
+    const [ work_intervals, setWork_intervals ] = useStateWrap("work_intervals",0)
+    const [ recess_time, setRecess_time ] = useStateWrap("recess_time",0)
+    const [ interval_time, setInterval_time ] = useStateWrap("interval_time", 0)
+    const [ paused, setPaused ] = useStateWrap("paused",false)
+    const [ work_mode, setWork_mode ] = useStateWrap("work_mode",true)
+    const [ background_color, setBackground_color ] = useStateWrap("background_color",'white')
 
     let audio = new Audio('public/test.mp3')
 	
@@ -64,6 +54,7 @@ export default function PomodoroTimer(){
 		})
 
 		worker.onmessage = (e) =>{
+            console.log("TIME = " + e.data)
             setTime(e.data)
 
 			//From recess to work
@@ -95,13 +86,13 @@ export default function PomodoroTimer(){
         <div>
             <div style={{background:background_color, float:'left',width:"50%"}}>
                 Intervals (m)
-                <input type="text" name="interval_time" onChange={(e) =>{
+                <input type="text" name="interval_time" value={interval_time/MIN_TO_MILLI} onChange={(e) =>{
                     setInterval_time(e.target.value*MIN_TO_MILLI)
                 }}/> 
                 <br/>
 
                 Recess (m) 
-                <input type="text" name="recess_time" onChange={(e) =>{
+                <input type="text" name="recess_time" value={recess_time/MIN_TO_MILLI} onChange={(e) =>{
                     setRecess_time(e.target.value*MIN_TO_MILLI)
                 }}/> 
                 <br/>

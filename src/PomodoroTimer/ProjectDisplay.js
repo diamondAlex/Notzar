@@ -1,15 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class ProjectDisplay extends Component{
-	constructor(props){
-		super(props)
-		this.processProps = this.processProps.bind(this)
-        console.log(props)
-	}
+export default function ProjectDisplay(props){
+    const { length } = props;
 
-	processProps(){
-        let props = this.props
-		if(props.length != 0){
+	function processProps(){
+		if(length != 0){
 			let projects = Object.keys(props)
 			let times = Object.values(props)
 			let lines = []
@@ -26,11 +21,9 @@ export default class ProjectDisplay extends Component{
 		)
 	}
 
-	render(){
-		return (
-			<div>
-				{this.processProps()}
-			</div>
-		)
-	}
+    return (
+        <div>
+        {processProps()}
+        </div>
+    )
 }

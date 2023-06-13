@@ -1,34 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import Books from './Books/Books'
 import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
 
-class App extends Component {
-    constructor(){
-        super()
-        this.state = {
-            currentPage:""
-        }
+let x = true
+function App(){
+    const [currentPage, setCurrentPage] = useState("")
 
-        this.handleRouting = this.handleRouting.bind(this)
-        this.routes = this.routes.bind(this)
-    }
+    useEffect(() =>{
+        setCurrentPage(window.location.pathname)
+    },[currentPage])
 
-    componentDidMount(){
-        var path = this.routes(window.location.pathname)
-        this.setState({currentPage:path})
-    }
-
-    handleRouting(e){
+    function handleRouting(e){
         e.preventDefault()
         window.history.pushState({page:e.target.name},"",e.target.name)
-        let page = this.routes(e.target.name)
-        this.setState({currentPage:page})
+        setCurrentPage(e.target.name)
     }
 
-    routes(path){
+    function routes(path){
         switch(path){
             case '/current':
                 return <Current/>
@@ -43,23 +34,22 @@ class App extends Component {
         }
     }
 
-    render(){
-        window.onpopstate = (event) => {
-            this.setState({currentPage:this.routes(window.location.pathname)})
-        }
-        return(
-            <div>
-                <a href="/current" name="/current" onClick={this.handleRouting}>Current</a>
-                 | 
-                <a href="/books" name="/books" onClick={this.handleRouting}>Books</a>
-                 | 
-                <a href="/pomodoro" name="/pomodoro" onClick={this.handleRouting}> pomodoro </a>
-                <br/>
-                <br/>
-                <div> {this.state.currentPage} </div>
-            </div>
-        )
-    } 
+    window.onpopstate = () => {
+        setCurrentPage(routes(window.location.pathname))
+    }
+
+    return(
+        <div>
+            <a href="/current" name="/current" onClick={handleRouting}>Current</a>
+             | 
+            <a href="/books" name="/books" onClick={handleRouting}>Books</a>
+             | 
+            <a href="/pomodoro" name="/pomodoro" onClick={handleRouting}> pomodoro </a>
+            <br/>
+            <br/>
+            <div> {routes(currentPage)} </div>
+        </div>
+    )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

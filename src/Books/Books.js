@@ -17,7 +17,6 @@ export default function Books(props){
             body: JSON.stringify({id:noteToRemove})
         })
         .then((data) =>{
-            console.log(data)
         })
     }
 
@@ -43,7 +42,6 @@ export default function Books(props){
             method: 'GET',
         })
         .then((data) =>{
-            console.log(data)
         })
     }
     
@@ -60,7 +58,6 @@ export default function Books(props){
             })
         })
         .then((data) =>{
-            console.log(data)
         })
     }
 

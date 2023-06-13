@@ -6,7 +6,7 @@
  * 		- stop then start should reset paused to unpaused
  * 		- add a time slot related note/text field (ex: at 9:00 - feeling cute)
  */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStateWrap from '../utils/useStateWrap'
 import TimeDisplay from './TimeDisplay'
 
@@ -25,8 +25,26 @@ export default function PomodoroTimer(){
     const [ paused, setPaused ] = useStateWrap("paused",false)
     const [ work_mode, setWork_mode ] = useStateWrap("work_mode",true)
     const [ background_color, setBackground_color ] = useStateWrap("background_color",'white')
+    const [ running, setRunning ] = useStateWrap("running",false)
 
     let audio = new Audio('public/test.mp3')
+
+    useEffect(() => {
+        if(running){
+            startWorker()
+        }
+    },[running])
+
+    function setStartButton(){
+        if(running){
+            setRunning(false)
+            stopWorker()
+        }
+        else{
+            setRunning(true)
+            startWorker()
+        }
+    }
 	
 	function confirmStartValidity(){
 		if(!(recess_time && interval_time)){
@@ -49,7 +67,7 @@ export default function PomodoroTimer(){
         setBackground_color(background_color_work)
 
 		worker.postMessage({
-			time:interval_time,
+			time:time != 0? time:interval_time,
 			paused:paused
 		})
 
@@ -97,17 +115,9 @@ export default function PomodoroTimer(){
                 }}/> 
                 <br/>
 
-                <button  onClick={(e) => {
-                    if(e.target.innerText == 'stop timer'){
-                        e.target.innerText = 'start timer'
-                        stopWorker()
-                    }
-                    else if(confirmStartValidity(e)){
-                        startWorker()
-                        e.target.innerText = 'stop timer'
-                    }
-                }
-                }> start timer </button>
+                <button  onClick={() => setStartButton()}> 
+                    {running?"stop timer":"start timer"} 
+                </button>
 
                 <button onClick={() => {
                     worker.postMessage({

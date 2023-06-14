@@ -1,15 +1,23 @@
 //for now this displays some text
-import React from 'react'
-import useStateWrap from '../utils/useStateWrap'
+import React, { useState } from 'react'
+
+let states = {
+    sup:{
+        test:"sup"
+    },
+    bro:{
+        test:"bro"
+    }
+}
 
 export default function Current(){
-    const [ text, setText ] = useStateWrap("text", "test")
-    const [ num, setNum ] = useStateWrap("num", 1)
+    const [ text, setText ] = useState({test:"value"})
+    console.log(text)
     return (
         <div> 
-            <p>{num + num} </p>
-            <textarea onChange={(e) => setText(e.target.value)} />
-            <button onClick={() => setNum(2)}> test </button>
+            {text.test}
+            <button onClick={() => setText(states.sup)} > sup </button>
+            <button onClick={() => setText(states.bro)} > bro </button>
         </div>
     )
 }

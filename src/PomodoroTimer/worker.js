@@ -35,9 +35,11 @@ async function runWorker(target){
             }
             current = new Date().getTime()
             remainder = target - current
-
             if(remainder >= 0){
                 postMessage(remainder)
+            }
+            else{
+                postMessage(0)
             }
 		}
         else{

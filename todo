@@ -3,3 +3,4 @@ unpause takes to long to restart
 setup a way to clear local storage
 right now it keeps track of time on reload, page change, but will start from where it left off on exit (which is most likely fine)
 setup the build properly, have the server bundled and something that runs off the dist/ content
+Memory leak, changing page while time is running

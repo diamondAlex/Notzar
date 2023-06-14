@@ -12,19 +12,13 @@ export default function useStateWrap(name, init){
         cachedData = localStorage.getItem(name)
     }
 
-    let value;
-    let func;
-
-    //console.log("cached data of " + name + " = " +cachedData + " of type " + typeof(cachedData))
-    if(cachedData){
-        [ value, func ] = useState(cachedData)
-    }
-    else{
-        [ value, func ] = useState(init)
-    }
+    const [ value, func ] = cachedData == null ?  useState(cachedData) : useState(init)
 
     let wrappedFunc = (updatedState) => {
         localStorage.setItem(name,updatedState)
+        if(name == 'work_mode'){
+            console.log("cached data of " + name + " = " + localStorage.getItem(name) + " of type " + typeof(cachedData))
+        }
         func(updatedState)
     }
 

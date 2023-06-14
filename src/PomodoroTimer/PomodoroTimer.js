@@ -1,7 +1,7 @@
 /*
  * TIME is in millisecond (all worker communication is in millisecond)
  * DISPLAYED TIME is in minutes and seconds
- * By default, long pause will happen every 3 interval and will be 3x time
+ * By default, long pause will happen every 3 interval and will be 3x pause time
  * TODO: - In the last 10 seconds, display needs to be 0:09, not 0:9
  * 		- stop then start should reset paused to unpaused
  * 		- add a time slot related note/text field (ex: at 9:00 - feeling cute)
@@ -13,11 +13,10 @@ import TimeDisplay from './TimeDisplay'
 const background_color_work = '#7FFFD4'
 const background_color_recess = '#00FFFF'
 const background_color_pause = '#EF5252'
-
 const MIN_TO_MILLI = 60*1000
 
 export default function PomodoroTimer(){
-    const [ worker, setWorker ] = useState(new Worker(new URL('./worker.js',import.meta.url)))
+    const [ worker, setWorker ] = useState(null)
     const [ time, setTime ] = useStateWrap("time",0)
     const [ work_intervals, setWork_intervals ] = useStateWrap("work_intervals",0)
     const [ recess_time, setRecess_time ] = useStateWrap("recess_time",0)
@@ -30,10 +29,15 @@ export default function PomodoroTimer(){
     let audio = new Audio('public/test.mp3')
 
     useEffect(() => {
-        if(running){
+        console.log(worker)
+        if(!worker){
+            setWorker(new Worker(new URL('./worker.js',import.meta.url)))
+        }
+        else if(running){
+            console.log('in running')
             startWorker()
         }
-    },[running])
+    },[running, worker])
 
     function setStartButton(){
         if(running){
@@ -72,19 +76,16 @@ export default function PomodoroTimer(){
 		})
 
 		worker.onmessage = (e) =>{
-            console.log("TIME = " + e.data)
             setTime(e.data)
 
 			//From recess to work
 			if(e.data == 0 && work_mode == false){
 				audio.play()
-                //is this async?
                 setBackground_color(background_color_work)
                 setWork_mode(true)
                 setTime(interval_time)
                 worker.postMessage({time:interval_time,paused:paused})
 			}
-
 			//From work to recess
 			else if(e.data==0 && work_mode== true){
 				audio.play()
@@ -108,17 +109,14 @@ export default function PomodoroTimer(){
                     setInterval_time(e.target.value*MIN_TO_MILLI)
                 }}/> 
                 <br/>
-
                 Recess (m) 
                 <input type="text" name="recess_time" value={recess_time/MIN_TO_MILLI} onChange={(e) =>{
                     setRecess_time(e.target.value*MIN_TO_MILLI)
                 }}/> 
                 <br/>
-
                 <button  onClick={() => setStartButton()}> 
                     {running?"stop timer":"start timer"} 
                 </button>
-
                 <button onClick={() => {
                     worker.postMessage({
                         time:time,
@@ -134,7 +132,6 @@ export default function PomodoroTimer(){
                 }}> 
                     {paused == false ? 'pause' : 'unpause'}
                 </button>
-        
                 <br/>
                 <br/>
                 <TimeDisplay time={time}/>

@@ -1,5 +1,6 @@
 //buffer ratio is the amount of time we run a setTimeout, the higher it is, the shorter the setTimeout
-const BUFFER_RATIO = 1000
+//do not go beyond 10 as it will spawn too many timeouts
+const BUFFER_RATIO = 10
 const MILLI_TO_SEC = 1000
 
 //prevents multiple timer from running
@@ -13,8 +14,6 @@ onmessage = async function(e){
 	let {time,paused} = e.data
 
     pauseFlag = paused
-    console.log("in worker onmessage = " + time)
-    console.log(typeof(time))
 	if(running == false){
         let now = new Date().getTime();
         let target = now + time 
@@ -23,7 +22,6 @@ onmessage = async function(e){
 }
 
 async function runWorker(target){
-    console.log("target = " + target)
 	running = true
     let current = new Date().getTime()
     let remainder
@@ -39,7 +37,6 @@ async function runWorker(target){
             remainder = target - current
 
             if(remainder >= 0){
-                console.log("remainder = " + remainder)
                 postMessage(remainder)
             }
 		}

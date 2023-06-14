@@ -9,7 +9,8 @@
     "serve": "nodemon ./server/index.js",
     "up": "dbmate up",
     "down": "dbmate drop",
-    "reset": "dbmate drop && dbmate up"
+    "reset": "dbmate drop && dbmate up",
+    "build": "webpack build"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-react": "^7.22.5",
     "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.42.0",
     "eslint-plugin-react": "^7.32.2",
     "file-loader": "^6.2.0",

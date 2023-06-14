@@ -1,4 +1,4 @@
-Broken, the refresh/start logic doesn't work.
+turns out hooks pretty much broke pomodoro, so starting it over
 unpause takes to long to restart
 setup a way to clear local storage
 right now it keeps track of time on reload, page change, but will start from where it left off on exit (which is most likely fine)

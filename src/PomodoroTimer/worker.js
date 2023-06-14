@@ -12,7 +12,6 @@ let unpauseFlag = false
 
 onmessage = async function(e){
 	let {time,paused} = e.data
-
     pauseFlag = paused
 	if(running == false){
         let now = new Date().getTime();

@@ -17,6 +17,7 @@ export default function PomodoroTimer(){
     let [ interval_time, setInterval_time ] = useState(0)
     let [ change, setChange ] = useState("sup")
     let [ state, setState ] = useState("off")
+    let [ intervals_completed, setIntervals_completed ] = useState(0)
 
     useEffect(() => {
         if(!worker){
@@ -32,7 +33,10 @@ export default function PomodoroTimer(){
                 interval_time : 
                 interval_time / TIME_TO_RECESS; 
 
-            if (state == 'work') setState('recess')
+            if (state == 'work') {
+                setState('recess')
+                setIntervals_completed(++intervals_completed)
+            }
             else if (state == 'recess') setState('work')
 
             worker.postMessage({
@@ -76,6 +80,7 @@ export default function PomodoroTimer(){
                     stop
                 </button>
                 <TimeDisplay time={time}/>
+                <br/> {intervals_completed}
             </div>
         </div>
     )

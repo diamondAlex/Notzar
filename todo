@@ -1,6 +1,7 @@
-turns out hooks pretty much broke pomodoro, so starting it over
-unpause takes to long to restart
-setup a way to clear local storage
-right now it keeps track of time on reload, page change, but will start from where it left off on exit (which is most likely fine)
+make data stay across page change
+
 setup the build properly, have the server bundled and something that runs off the dist/ content
-Memory leak, changing page while time is running
+will change to the wrong color when stopped in recess????
+add comments/edits to saved clips/timestamps
+add an event listener for space bar to start stop timer, plus an enter one to start initially
+unpause takes to long to restart

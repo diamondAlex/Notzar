@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TimeDisplay from './TimeDisplay'
 
+
 const MIN_TO_MILLI = 60*1000
 const TIME_TO_RECESS = 6
 const audio =  new Audio('public/test.mp3')
@@ -22,20 +23,22 @@ export default function PomodoroTimer(){
     let [ intervals_completed, setIntervals_completed ] = useState(0)
 
     useEffect(() => {
-        //window.addEventListener("keydown", (e) => {
-            //console.log('test')
-        //})
+        window.addEventListener("keypress", (e) =>{
+            if(e.code == "Space"){
+                setChange(2) 
+            }
+        })
+    },[])
+
+    useEffect(() => {
+        console.log(change)
         if(!worker){
             setWorker(new Worker(new URL('./worker.js',import.meta.url)))
-            console.log('test')
         }
         //switches between work and recess
         if(change == 1){
-            console.log('test2')
             setChange(0)
             audio.play()
-            console.log(state)
-            console.log(from)
 
             //if == recess cause we got from recess -> work and work -> recess
             let time_to_set = state == "recess" ? 
@@ -52,6 +55,15 @@ export default function PomodoroTimer(){
                 time:time_to_set,
                 paused:false
             })
+        }
+        else if(change == 2){
+            setChange(0)
+            if(state=="work" || state == "recess"){
+                stopWorker()
+            }
+            else if(state=="off"){
+                startWorker()
+            }
         }
     },[worker, change])
 

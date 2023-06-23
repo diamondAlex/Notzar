@@ -40,7 +40,7 @@ export default function PomodoroTimer(){
             //if == recess cause we got from recess -> work and work -> recess
             let time_to_set = state == "recess" ? 
                 interval_time : 
-                interval_time / 2; 
+                interval_time / TIME_TO_RECESS; 
 
             if (state == 'work') {
                 setState('recess')

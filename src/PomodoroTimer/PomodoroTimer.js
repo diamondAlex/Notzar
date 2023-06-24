@@ -24,14 +24,17 @@ export default function PomodoroTimer(){
 
     useEffect(() => {
         window.addEventListener("keypress", (e) =>{
+            console.log(e.code)
             if(e.code == "Space"){
+                setChange(2) 
+            }
+            if(e.code == "Enter" || e.code == "NumpadEnter"){
                 setChange(2) 
             }
         })
     },[])
 
     useEffect(() => {
-        console.log(change)
         if(!worker){
             setWorker(new Worker(new URL('./worker.js',import.meta.url)))
         }
@@ -77,6 +80,7 @@ export default function PomodoroTimer(){
 
 	function startWorker(){
         if(state == 'work') return
+        if(interval_time == 0) return
         from == "recess" ? setState("recess") : setState("work")
 		worker.postMessage({
             time:time==0?interval_time:time,

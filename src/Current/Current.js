@@ -12,7 +12,6 @@ let states = {
 
 export default function Current(){
     const [ text, setText ] = useState({test:"value"})
-    console.log(text)
     return (
         <div> 
             {text.test}

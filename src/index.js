@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Books from './Books/Books'
 import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
+import Practicer from './Practicer/Practicer'
 
 let x = true
 function App(){
@@ -27,6 +28,8 @@ function App(){
                 return <Books/>
             case '/pomodoro':
                 return <PomodoroTimer/>
+            case '/practicer':
+                return <Practicer/>
             case '/':
                 return <Current/>
             default:
@@ -45,6 +48,8 @@ function App(){
             <a href="/books" name="/books" onClick={handleRouting}>Books</a>
              | 
             <a href="/pomodoro" name="/pomodoro" onClick={handleRouting}> pomodoro </a>
+             | 
+            <a href="/practicer" name="/practicer" onClick={handleRouting}> practicer </a>
             <br/>
             <br/>
             <div> {routes(currentPage)} </div>

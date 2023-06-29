@@ -1,9 +1,3 @@
 unpause takes to long to restart
 make data stay across page change
-setup the build properly, have the server bundled and something that runs off the dist/ content
-
-
-Far in the future:
-    pages could proc events, let's say you workout page hasn't been updated, it reminds you to workout
-    add a mental health/positivity page with stuff like "what are you grateful for.
-
+have components dispay reminder in currently opened page

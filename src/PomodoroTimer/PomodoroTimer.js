@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import TimeDisplay from './TimeDisplay'
+import { useStateWrap } from '../utils/useStateWrap'
 
 
 const MIN_TO_MILLI = 60*1000
@@ -15,16 +16,15 @@ let states={
 
 export default function PomodoroTimer(){
     let [ worker, setWorker ] = useState(null)
-    let [ time, setTime ] = useState(0)
-    let [ interval_time, setInterval_time ] = useState(0)
-    let [ change, setChange ] = useState("sup")
-    let [ state, setState ] = useState("off")
-    let [ from, setFrom ] = useState("off")
-    let [ intervals_completed, setIntervals_completed ] = useState(0)
+    let [ time, setTime ] = useStateWrap("time",0)
+    let [ interval_time, setInterval_time ] = useStateWrap("interval_time",0)
+    let [ change, setChange ] = useState(3)
+    let [ state, setState ] = useStateWrap("state","off")
+    let [ from, setFrom ] = useStateWrap("from", "off")
+    let [ intervals_completed, setIntervals_completed ] = useStateWrap("intervals_completed",0)
 
     useEffect(() => {
         window.addEventListener("keypress", (e) =>{
-            console.log(e.code)
             if(e.code == "Space"){
                 setChange(2) 
             }
@@ -68,6 +68,10 @@ export default function PomodoroTimer(){
                 startWorker()
             }
         }
+        else if(change == 3 && worker && (state == 'work' || state == 'recess')){
+            setChange(0)
+            initWorker()
+        }
     },[worker, change])
 
     function stopWorker(){
@@ -82,15 +86,18 @@ export default function PomodoroTimer(){
         if(state == 'work') return
         if(interval_time == 0) return
         from == "recess" ? setState("recess") : setState("work")
+        initWorker()
+	}
+
+    function initWorker(){
 		worker.postMessage({
             time:time==0?interval_time:time,
 		})
 		worker.onmessage = (e) =>{
             setTime(e.data)
-            console.log(e.data)
             if(e.data == 0) setChange(1)
 		}
-	}
+    }
 
     return(
         <div>

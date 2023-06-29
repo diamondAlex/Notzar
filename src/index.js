@@ -6,7 +6,6 @@ import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
 import Practicer from './Practicer/Practicer'
 
-let x = true
 function App(){
     const [currentPage, setCurrentPage] = useState("")
 

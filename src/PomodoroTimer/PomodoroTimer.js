@@ -24,6 +24,9 @@ export default function PomodoroTimer(){
     let [ intervals_completed, setIntervals_completed ] = useStateWrap("intervals_completed",0)
 
     useEffect(() => {
+        if(state == "off"){
+            clearData()
+        }
         window.addEventListener("keypress", (e) =>{
             if(e.code == "Space"){
                 setChange(2) 
@@ -34,6 +37,10 @@ export default function PomodoroTimer(){
         })
     },[])
 
+    function clearData(){
+        console.log("should delete")
+        localStorage.removeItem("pomodoro")
+    }
     useEffect(() => {
         if(!worker){
             setWorker(new Worker(new URL('./worker.js',import.meta.url)))

@@ -1,19 +1,19 @@
 import { useState } from 'react'
 
 export function useStateWrap(name, init){
+    let page = window.location.pathname.slice(1)
     let cachedData; 
 
-    cachedData = JSON.parse(localStorage.getItem(name))
-
+    cachedData = JSON.parse(localStorage.getItem(page))
+    cachedData = cachedData == null ?  null : cachedData[name]
     const [ value, func ] = cachedData == null ?  useState(init) : useState(cachedData)
 
     let wrappedFunc = (updatedState) => {
-        localStorage.setItem(name,JSON.stringify(updatedState))
-        if(name == 'work_mode'){
-            console.log("cached data of " + name + " = " + localStorage.getItem(name) + " of type " + typeof(cachedData))
-        }
+        let json = JSON.parse(localStorage.getItem(page))
+        if(!json) json = {}
+        json[name] = updatedState
+        localStorage.setItem(page,JSON.stringify(json))
         func(updatedState)
     }
-
     return [ value, wrappedFunc ] 
 }

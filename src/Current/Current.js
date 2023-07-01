@@ -1,22 +1,12 @@
 //for now this displays some text
-import React, { useState } from 'react'
-
-let states = {
-    sup:{
-        test:"sup"
-    },
-    bro:{
-        test:"bro"
-    }
-}
+import React from 'react'
+import { useStateWrap } from '../utils/useStateWrap'
 
 export default function Current(){
-    const [ text, setText ] = useState({test:"value"})
+    const [ todos, setTodos ] = useStateWrap("todos",[])
     return (
         <div> 
-            {text.test}
-            <button onClick={() => setText(states.sup)} > sup </button>
-            <button onClick={() => setText(states.bro)} > bro </button>
+            <textarea onChange={(e) => setTodos(e.target.value)}></textarea>
         </div>
     )
 }

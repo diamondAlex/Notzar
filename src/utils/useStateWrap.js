@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 export function useStateWrap(name, init){
     let page = window.location.pathname.slice(1)
+    page = page == "" ? "root" : page;
     let cachedData; 
 
     cachedData = JSON.parse(localStorage.getItem(page))
@@ -9,6 +10,7 @@ export function useStateWrap(name, init){
     const [ value, func ] = cachedData == null ?  useState(init) : useState(cachedData)
 
     let wrappedFunc = (updatedState) => {
+        console.log(page)
         let json = JSON.parse(localStorage.getItem(page))
         if(!json) json = {}
         json[name] = updatedState

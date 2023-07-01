@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
+import Home from './Home/Home'
 import Books from './Books/Books'
 import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
@@ -30,7 +31,7 @@ function App(){
             case '/practicer':
                 return <Practicer/>
             case '/':
-                return <Current/>
+                return <Home/>
             default:
                 return ""
         }
@@ -42,6 +43,8 @@ function App(){
 
     return(
         <div>
+            <a href="/" name="/" onClick={handleRouting}>Home</a>
+             | 
             <a href="/current" name="/current" onClick={handleRouting}>Current</a>
              | 
             <a href="/books" name="/books" onClick={handleRouting}>Books</a>

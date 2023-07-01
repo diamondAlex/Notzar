@@ -49,9 +49,9 @@ function App(){
              | 
             <a href="/books" name="/books" onClick={handleRouting}>Books</a>
              | 
-            <a href="/pomodoro" name="/pomodoro" onClick={handleRouting}> pomodoro </a>
+            <a href="/pomodoro" name="/pomodoro" onClick={handleRouting}> Pomodoro </a>
              | 
-            <a href="/practicer" name="/practicer" onClick={handleRouting}> practicer </a>
+            <a href="/practicer" name="/practicer" onClick={handleRouting}> Practicer </a>
             <br/>
             <br/>
             <div> {routes(currentPage)} </div>

@@ -7,10 +7,16 @@ export function useStateWrap(name, init){
 
     cachedData = JSON.parse(localStorage.getItem(page))
     cachedData = cachedData == null ?  null : cachedData[name]
-    const [ value, func ] = cachedData == null ?  useState(init) : useState(cachedData)
+    let value
+    let func
+    if(cachedData == null) {
+        [value, func] = useState(init) 
+    }
+    else{
+        [value, func] = useState(cachedData) 
+    }
 
     let wrappedFunc = (updatedState) => {
-        console.log(page)
         let json = JSON.parse(localStorage.getItem(page))
         if(!json) json = {}
         json[name] = updatedState

@@ -1,17 +1,18 @@
+//todo make change names more explicit than ints (Ex: "switch, keypress_switch, reload_switch" etc)
+//see if all those hooks are really necessary
 import React, { useEffect, useState } from 'react'
 import TimeDisplay from './TimeDisplay'
 import { useStateWrap } from '../utils/useStateWrap'
-
 
 const MIN_TO_MILLI = 60*1000
 const TIME_TO_RECESS = 6
 const audio =  new Audio('public/test.mp3')
 
 let states={
-    off: {"bg_color":"white"},
-    work: {"bg_color":"#86db8d"},
-    recess: {"bg_color":"#7b9fbd"},
-    pause: {"bg_color":"#FFFF00"},
+    off: {"bg_color":"bg-white-500"},
+    work: {"bg_color":"bg-green-500"},
+    recess: {"bg_color":"bg-blue-500"},
+    pause: {"bg_color":"bg-yellow-500"},
 }
 
 export default function PomodoroTimer(){
@@ -25,22 +26,14 @@ export default function PomodoroTimer(){
 
     useEffect(() => {
         if(state == "off"){
-            clearData()
+            setChange(4)
         }
         window.addEventListener("keypress", (e) =>{
-            if(e.code == "Space"){
-                setChange(2) 
-            }
-            if(e.code == "Enter" || e.code == "NumpadEnter"){
-                setChange(2) 
-            }
+            if(e.code == "Space") setChange(2) 
+            if(e.code == "Enter" || e.code == "NumpadEnter") setChange(2) 
         })
     },[])
 
-    function clearData(){
-        console.log("should delete")
-        localStorage.removeItem("pomodoro")
-    }
     useEffect(() => {
         if(!worker){
             setWorker(new Worker(new URL('./worker.js',import.meta.url)))
@@ -49,37 +42,41 @@ export default function PomodoroTimer(){
         if(change == 1){
             setChange(0)
             audio.play()
-
             //if == recess cause we got from recess -> work and work -> recess
             let time_to_set = state == "recess" ? 
                 interval_time : 
                 interval_time / TIME_TO_RECESS; 
-
             if (state == 'work') {
                 setState('recess')
                 setIntervals_completed(++intervals_completed)
             }
             else if (state == 'recess') setState('work')
-
             worker.postMessage({
                 time:time_to_set,
                 paused:false
             })
         }
+        //change state through keypress
         else if(change == 2){
             setChange(0)
-            if(state=="work" || state == "recess"){
-                stopWorker()
-            }
-            else if(state=="off"){
-                startWorker()
-            }
+            if(state=="work" || state == "recess") stopWorker()
+            else if(state=="off") startWorker()
         }
+        //starts worker on reload if localStorage has data
         else if(change == 3 && worker && (state == 'work' || state == 'recess')){
             setChange(0)
             initWorker()
         }
+        //this is used to reset timer on reload, no idea why it works
+        else if(change == 4){
+            stopWorker()
+            clearData()
+        }
     },[worker, change])
+
+    function clearData(){
+        localStorage.removeItem("pomodoro")
+    }
 
     function stopWorker(){
         if(state=="off") return
@@ -108,21 +105,14 @@ export default function PomodoroTimer(){
 
     return(
         <div>
-            <div style={{background:states[state].bg_color, float:'left',width:"50%"}}>
-                Intervals (m)
-                <input type="text" name="time" onChange={(e) =>{
-                    setInterval_time(e.target.value*MIN_TO_MILLI)
-                }}/> 
-                <br/>
-                <br/>
-                <button  onClick={() => startWorker()}> 
-                    start
-                </button>
-                <button  onClick={() => stopWorker()}> 
-                    stop
-                </button>
-                <TimeDisplay time={time}/>
-                <br/> {intervals_completed}
+            <div className={states[state].bg_color + " m-2"}>
+                <p> Intervals (m) <input className="border-solid border-2 border-sky-500 rounded" type="text" name="time" onChange={(e) =>{
+                        setInterval_time(e.target.value*MIN_TO_MILLI)
+                    }}/> 
+                </p>
+                <button className="btn-blue rounded p-1 m-2" onClick={() => startWorker()}>start</button>
+                <button className="btn-blue rounded p-1 m-2" onClick={() => stopWorker()}>stop</button>
+                <TimeDisplay time={time}/> <br/> {intervals_completed}
             </div>
         </div>
     )

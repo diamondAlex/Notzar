@@ -16,13 +16,15 @@ export default function Text(props){
     }
 
     function submit(){
-        console.log(content)
-        setTodos([...todos, content])
-        setContent("")
+        if(content){
+            setTodos([...todos, content])
+            setContent("")
+        }
     }
 
     return (
         <div>
+            <p> {props.name} </p>
             <textarea placeholder='enter text here' value={content} onChange={(e) => handleChange(e)}/>
             <button onClick={() => submit()}> click </button>
             <br/>

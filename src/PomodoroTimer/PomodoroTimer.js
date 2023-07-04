@@ -9,10 +9,9 @@ const TIME_TO_RECESS = 6
 const audio =  new Audio('public/test.mp3')
 
 let states={
-    off: {"bg_color":"bg-white-500"},
-    work: {"bg_color":"bg-green-500"},
-    recess: {"bg_color":"bg-blue-500"},
-    pause: {"bg_color":"bg-yellow-500"},
+    off: {"bg_color":"bg-red-200"},
+    work: {"bg_color":"bg-green-200"},
+    recess: {"bg_color":"bg-blue-200"},
 }
 
 export default function PomodoroTimer(){
@@ -23,9 +22,6 @@ export default function PomodoroTimer(){
     let [ state, setState ] = useStateWrap("state","off")
     let [ from, setFrom ] = useStateWrap("from", "off")
     let [ intervals_completed, setIntervals_completed ] = useStateWrap("intervals_completed",0)
-
-    console.log(interval_time)
-    console.log(time)
 
     useEffect(() => {
         window.addEventListener("keypress", (e) =>{
@@ -85,6 +81,9 @@ export default function PomodoroTimer(){
     }
 
 	function startWorker(){
+        console.log('start')
+        console.log(state)
+        console.log(interval_time)
         if(state == 'work') return
         if(interval_time == 0) return
         from == "recess" ? setState("recess") : setState("work")
@@ -108,17 +107,17 @@ export default function PomodoroTimer(){
     }
 
     return(
-        <div>
-            <div className={states[state].bg_color + " m-2"}>
-                <p> Intervals (m) <input className="border-solid border-2 border-sky-500 rounded" type="text" name="time" onChange={(e) =>{
-                        setInterval_time(e.target.value*MIN_TO_MILLI)
-                    }}/> 
-                </p>
-                <button className="btn-blue rounded p-1 m-2" onClick={() => startWorker()}>start</button>
-                <button className="btn-blue rounded p-1 m-2" onClick={() => stopWorker()}>stop</button>
-                <button className="btn-blue rounded p-1 m-2" onClick={() => resetTimer()}>reset</button>
-                <TimeDisplay time={time}/> <br/> {intervals_completed}
-            </div>
+        <div className={ " m-2"}>
+            <p> <span className='text-lg'> Intervals (m) </span>
+                <input className="bg-blue-200 border-2 border-gray-400 rounded" type="text" name="time" onChange={(e) =>{
+                    setInterval_time(e.target.value*MIN_TO_MILLI)
+                }}/> 
+            </p>
+            <button className="bg-blue-200 rounded p-1 m-2" onClick={() => startWorker()}>start</button>
+            <button className="bg-blue-200 rounded p-1 m-2" onClick={() => stopWorker()}>stop</button>
+            <button className="bg-blue-200 rounded p-1 m-2" onClick={() => resetTimer()}>reset</button>
+            <TimeDisplay time={time} style={`${states[state].bg_color} rounded p-1 m-2`}/> 
+            <div className='bg-blue-200 rounded p-1 m-2 w-10'>{intervals_completed}</div>
         </div>
     )
 }

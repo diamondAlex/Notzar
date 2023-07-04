@@ -42,18 +42,18 @@ function App(){
     }
 
     return(
-        <div>
-            <a href="/" name="/" onClick={handleRouting}>Home</a>
-             | 
-            <a href="/current" name="/current" onClick={handleRouting}>Current</a>
-             | 
-            <a href="/books" name="/books" onClick={handleRouting}>Books</a>
-             | 
-            <a href="/pomodoro" name="/pomodoro" onClick={handleRouting}> Pomodoro </a>
-             | 
-            <a href="/practicer" name="/practicer" onClick={handleRouting}> Practicer </a>
-            <br/>
-            <br/>
+        <div className='p-2'>
+            <div className='mb-4 pl-2 pt-1 text-lg'>
+                <a href="/" name="/" onClick={handleRouting}>Home</a>
+                 | 
+                <a href="/current" name="/current" onClick={handleRouting}>Current</a>
+                 | 
+                <a href="/books" name="/books" onClick={handleRouting}>Books</a>
+                 | 
+                <a href="/pomodoro" name="/pomodoro" onClick={handleRouting}> Pomodoro </a>
+                 | 
+                <a href="/practicer" name="/practicer" onClick={handleRouting}> Practicer </a>
+            </div>
             <div> {routes(currentPage)} </div>
         </div>
     )

@@ -24,10 +24,10 @@ export default function PomodoroTimer(){
     let [ from, setFrom ] = useStateWrap("from", "off")
     let [ intervals_completed, setIntervals_completed ] = useStateWrap("intervals_completed",0)
 
+    console.log(interval_time)
+    console.log(time)
+
     useEffect(() => {
-        if(state == "off"){
-            setChange(4)
-        }
         window.addEventListener("keypress", (e) =>{
             if(e.code == "Space") setChange(2) 
             if(e.code == "Enter" || e.code == "NumpadEnter") setChange(2) 
@@ -67,10 +67,8 @@ export default function PomodoroTimer(){
             setChange(0)
             initWorker()
         }
-        //this is used to reset timer on reload, no idea why it works
         else if(change == 4){
-            stopWorker()
-            clearData()
+            setChange(0)
         }
     },[worker, change])
 
@@ -103,6 +101,12 @@ export default function PomodoroTimer(){
 		}
     }
 
+    function resetTimer(){
+        clearData()
+        stopWorker()
+        setChange(4)
+    }
+
     return(
         <div>
             <div className={states[state].bg_color + " m-2"}>
@@ -112,6 +116,7 @@ export default function PomodoroTimer(){
                 </p>
                 <button className="btn-blue rounded p-1 m-2" onClick={() => startWorker()}>start</button>
                 <button className="btn-blue rounded p-1 m-2" onClick={() => stopWorker()}>stop</button>
+                <button className="btn-blue rounded p-1 m-2" onClick={() => resetTimer()}>reset</button>
                 <TimeDisplay time={time}/> <br/> {intervals_completed}
             </div>
         </div>

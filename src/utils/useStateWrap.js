@@ -10,13 +10,22 @@ export function useStateWrap(name, init){
     let value
     let func
     if(cachedData == null) {
-        [value, func] = useState(init) 
+        let state = useState(init) 
+        console.log(state)
+        value = state[0]
+        func = state[1]
+        if(value != init){
+            func(init)
+        }
     }
     else{
         [value, func] = useState(cachedData) 
     }
 
     let wrappedFunc = (updatedState) => {
+        if(name == "time"){
+            console.log(`in interval_time ${updatedState}`)
+        }
         let json = JSON.parse(localStorage.getItem(page))
         if(!json) json = {}
         json[name] = updatedState

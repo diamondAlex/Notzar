@@ -6,7 +6,7 @@ export default function TimeDisplay(props){
     let sec = parseInt(Math.round(time%60))
 
     return(
-        <div className={props.style + " w-1/6"}>
+        <div className={props.style + " w-1/2"}>
         <br/>
         Time: {min} : {sec}
         </div>

@@ -107,7 +107,7 @@ export default function PomodoroTimer(){
     }
 
     return(
-        <div className={ " m-2"}>
+        <div className={ "rounded border-solid border-2 p-2 m-2 w-1/4"}>
             <p> <span className='text-lg'> Intervals (m) </span>
                 <input className={`states[state].bg_color border-2 border-gray-400 rounded`} type="text" name="time" onChange={(e) =>{
                     setInterval_time(e.target.value*MIN_TO_MILLI)

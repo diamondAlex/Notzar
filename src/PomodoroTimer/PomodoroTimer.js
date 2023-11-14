@@ -1,5 +1,3 @@
-//todo make change names more explicit than ints (Ex: "switch, keypress_switch, reload_switch" etc)
-//see if all those hooks are really necessary
 import React, { useEffect, useState } from 'react'
 import TimeDisplay from './TimeDisplay'
 import { useStateWrap } from '../utils/useStateWrap'
@@ -81,9 +79,6 @@ export default function PomodoroTimer(){
     }
 
 	function startWorker(){
-        console.log('start')
-        console.log(state)
-        console.log(interval_time)
         if(state == 'work') return
         if(interval_time == 0) return
         from == "recess" ? setState("recess") : setState("work")
@@ -121,4 +116,3 @@ export default function PomodoroTimer(){
         </div>
     )
 }
-

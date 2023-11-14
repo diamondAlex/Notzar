@@ -6,6 +6,7 @@ import Books from './Books/Books'
 import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
 import Practicer from './Practicer/Practicer'
+import Workout from './Workout/Workout'
 
 function App(){
     const [currentPage, setCurrentPage] = useState("")
@@ -24,6 +25,8 @@ function App(){
         switch(path){
             case '/current':
                 return <Current/>
+            case '/workout':
+                return <Workout/>
             case '/books':
                 return <Books/>
             case '/pomodoro':
@@ -47,6 +50,8 @@ function App(){
                 <a href="/" name="/" onClick={handleRouting}>Home</a>
                  | 
                 <a href="/current" name="/current" onClick={handleRouting}>Current</a>
+                 | 
+                <a href="/workout" name="/workout" onClick={handleRouting}>Workout</a>
                  | 
                 <a href="/books" name="/books" onClick={handleRouting}>Books</a>
                  | 

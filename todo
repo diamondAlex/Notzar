@@ -4,3 +4,5 @@ unpause takes to long to restart
 make data stay across page change
 have components dispay reminder in currently opened page
 add a component that holds cheatsheets, basically quicker versions of notes
+make sense of the webpack config file cause it's a mess
+test the build process

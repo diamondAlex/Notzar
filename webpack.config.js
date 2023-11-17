@@ -20,9 +20,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     devServer:{
-        contentBase:'./dist',
         historyApiFallback: true,
-        watchContentBase: true,
         port:8081
     },
     module: {

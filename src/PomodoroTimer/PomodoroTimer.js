@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import TimeDisplay from './TimeDisplay'
+import Progress from '../components/Progress/Progress'
 import { useStateWrap } from '../utils/useStateWrap'
 
 const MIN_TO_MILLI = 60*1000
@@ -113,6 +114,7 @@ export default function PomodoroTimer(){
             <button className="bg-blue-200 rounded p-1 m-2" onClick={() => resetTimer()}>reset</button>
             <TimeDisplay time={time} style={`${states[state].bg_color} rounded p-1 m-2`}/> 
             <div className='bg-blue-200 rounded p-1 m-2 w-10'>{intervals_completed}</div>
+            <Progress /> 
         </div>
     )
 }

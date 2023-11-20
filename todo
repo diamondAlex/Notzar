@@ -1,4 +1,4 @@
-the time diplayed doesn't properly add 0 to low seconds
+the reset and stop button fuck with the text areas, forcing you to erase and retype the times, either keep them working, or clear them on start
 make a % win for practicer
 unpause takes to long to restart
 make data stay across page change
@@ -6,3 +6,4 @@ have components dispay reminder in currently opened page
 add a component that holds cheatsheets, basically quicker versions of notes
 make sense of the webpack config file cause it's a mess
 test the build process
+look into the "didn't interact with the document" thing

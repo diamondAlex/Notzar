@@ -17,6 +17,7 @@ export default function PomodoroTimer(){
     let [ worker, setWorker ] = useState(null)
     let [ time, setTime ] = useStateWrap("time",0)
     let [ interval_time, setInterval_time ] = useStateWrap("interval_time",0)
+    let [ recess_time, setRecess_time ] = useStateWrap("recess_time",0)
     let [ change, setChange ] = useState(3)
     let [ state, setState ] = useStateWrap("state","off")
     let [ from, setFrom ] = useStateWrap("from", "off")
@@ -29,6 +30,7 @@ export default function PomodoroTimer(){
         })
     },[])
 
+    //this seems bloated and over complicated
     useEffect(() => {
         if(!worker){
             setWorker(new Worker(new URL('./worker.js',import.meta.url)))
@@ -38,18 +40,13 @@ export default function PomodoroTimer(){
             setChange(0)
             audio.play()
             //if == recess cause we got from recess -> work and work -> recess
-            let time_to_set = state == "recess" ? 
-                interval_time : 
-                interval_time / TIME_TO_RECESS; 
+            let time_to_set = state == "recess" ? interval_time : recess_time; 
             if (state == 'work') {
                 setState('recess')
                 setIntervals_completed(++intervals_completed)
             }
             else if (state == 'recess') setState('work')
-            worker.postMessage({
-                time:time_to_set,
-                paused:false
-            })
+            worker.postMessage({time:time_to_set,paused:false})
         }
         //change state through keypress
         else if(change == 2){
@@ -107,6 +104,11 @@ export default function PomodoroTimer(){
             <p> <span className='text-lg'> Intervals (m) </span>
                 <input className={`states[state].bg_color border-2 border-gray-400 rounded`} type="text" name="time" onChange={(e) =>{
                     setInterval_time(e.target.value*MIN_TO_MILLI)
+                }}/> 
+            </p>
+            <p> <span className='text-lg'> Recess (m) </span>
+                <input className={`states[state].bg_color border-2 border-gray-400 rounded`} type="text" name="time" onChange={(e) =>{
+                    setRecess_time(e.target.value*MIN_TO_MILLI)
                 }}/> 
             </p>
             <button className="bg-blue-200 rounded p-1 m-2" onClick={() => startWorker()}>start</button>

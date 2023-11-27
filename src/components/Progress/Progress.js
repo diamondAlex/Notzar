@@ -5,7 +5,7 @@ export default function Progress(props){
 
     function setTime(){
         let start = 4 
-        let end = 21
+        let end = 20
         let range = end - start
         let date = new Date()
         let minutes = date.getMinutes()

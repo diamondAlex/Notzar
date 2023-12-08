@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import Home from './Home/Home'
+import Cards from './Cards/Cards'
+import Todo from './Todo/Todo'
 import Books from './Books/Books'
 import Current from './Current/Current'
 import PomodoroTimer from './PomodoroTimer/PomodoroTimer'
@@ -23,6 +25,10 @@ function App(){
 
     function routes(path){
         switch(path){
+            case '/todo':
+                return <Todo/>
+            case '/cards':
+                return <Cards/>
             case '/current':
                 return <Current/>
             case '/workout':
@@ -48,6 +54,10 @@ function App(){
         <div className='p-2'>
             <div className='mb-4 pl-2 pt-1 text-lg'>
                 <a href="/" name="/" onClick={handleRouting}>Home</a>
+                 | 
+                <a href="/todo" name="/todo" onClick={handleRouting}>Todo</a>
+                 | 
+                <a href="/cards" name="/cards" onClick={handleRouting}>Cards</a>
                  | 
                 <a href="/current" name="/current" onClick={handleRouting}>Current</a>
                  | 

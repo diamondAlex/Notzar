@@ -2,8 +2,10 @@ const mariadb = require('mariadb')
 
 let pool = mariadb.createPool({
 user:process.env.DBUSER,
-    password:process.env.DBPASS,
-    port:process.env.DBPORT,
+    password:"example",
+    user:"root",
+    host:"127.0.0.1",
+    port:"9000",
     database:"Books"
 })
 

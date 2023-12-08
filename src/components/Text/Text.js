@@ -1,3 +1,4 @@
+//TODO - adding item when clicking enter
 import React, { useState } from 'react'
 
 //the naming in this has to be rethought, even the component name (Text) is sussy

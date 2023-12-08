@@ -6,7 +6,6 @@ import Entry from './Entry'
 
 let url = "http://localhost:8080/"
 
-
 export default function Books(props){
     const [ books, setBooks ] = useState([]) 
     const [ notes, setNotes ] = useState([])
@@ -45,7 +44,8 @@ export default function Books(props){
         })
     }
     
-    getNotes()
+    //will add this once the server is done
+    //getNotes()
 
     function addNote(title,note,subjects,book){
         fetch(url+"addNote",{

@@ -1,5 +1,5 @@
 -- migrate:up
-create table example(
+create table cards(
     id integer auto_increment not null primary key,
     question text,
     answer text
@@ -8,4 +8,4 @@ create table example(
 
 -- migrate:down
 
-drop table example;
+drop table cards;

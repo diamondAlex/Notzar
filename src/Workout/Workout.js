@@ -3,25 +3,7 @@
 //          so it doesn't work by tabbing over to it, it's awful btw
 //      -   add a % of total lifts done
 import React, { useState, useEffect } from 'react'
-
-let example_workout = {
-    "pushups":{
-        "current":0,
-        "goal":100
-    },
-    "squats":{
-        "current":0,
-        "goal":100
-    },
-    "grippers":{
-        "current":0,
-        "goal":200
-    },
-    "calf raise":{
-        "current":0,
-        "goal":200
-    }
-}
+import { useStateWrap } from '../utils/useStateWrap'
 
 let container_class = "h-20 inline-flex my-4 m-4 w-11/12 border-2 rounded"
 let text_class = "border-2 border-gray-400 rounded ml-2 h-1/2 m-4 w-10"
@@ -56,15 +38,15 @@ setInterval(() => {
 },1000)
 
 export default function Workout(){
-    const [ workout, setWorkout] = useState(example_workout)
+    const [ workout, setWorkout] = useStateWrap("workout",[])
     const [ value, setValue ] = useState(0)
     const [ current, setCurrent ] = useState("")
+    const [ show, setShow ] = useState("")
 
 
     useEffect(() => {
         window.addEventListener("keydown", (e) =>{
             if(e.key == "Enter"){
-                console.log(current)
                 if(current != ""){
                     addToWorkout(current)
                 }
@@ -72,25 +54,70 @@ export default function Workout(){
         })
     },[])
 
+    function addExercise(ex, amt){
+        workout.push({name:ex,current:0,goal:amt})
+        setWorkout(workout)
+    }
+
     function addToWorkout(ex){
-        console.log("in add")
         if(ex != current) return
-        let new_workout = {...workout}
+        let new_workout = [...workout]
+
         let x = parseInt(value)
         if(!Number.isInteger(x)) return
-        new_workout[ex].current += x
+
+        new_workout.find((e) => e.name == ex).current += x
         document.getElementById(ex).value = ""
+
         setWorkout(new_workout)
         setValue(0)
     }
 
-    let element_array = Object.keys(example_workout).map((e) => {
-        return (<Add key={e} setCurrent={setCurrent} onClick={addToWorkout} onChange={setValue} value={value} current={workout[e].current} ex={e} amt={workout[e].goal} />)
-    })
     
     return (
         <div className="rounded border-solid border-2 w-1/3"> 
-            {element_array}
+        {
+            workout.map((e) => {
+                return (
+                    <Add key={e.name} 
+                        setCurrent={setCurrent} 
+                        onClick={addToWorkout} 
+                        onChange={setValue} 
+                        value={value} 
+                        current={e.current} 
+                        ex={e.name} 
+                        amt={e.goal} 
+                    />)
+            })
+        }
+        <button className="border-2 rounded h-10 w-10" onClick={()=>setShow(1)} > add </button>
+        <DialogAdder show={show} close={setShow} send={addExercise}/>
         </div>
+    )
+}
+
+let className = 'align-top border-2 h-20 w-72'
+
+function DialogAdder(props){
+    let { show } = props
+    if(!show) return <dialog/>
+
+    const [ exercise, setExercise ] = useState("")
+    const [ amt, setAmt ] = useState("")
+
+    return (
+        <dialog open>
+            <div className='border-2 flex-box flex-col w-1/3'>
+                exercise:<textarea className={className} value={exercise} onChange={(e)=>setExercise(e.target.value)}/>
+                goal:<textarea className={className} value={amt} onChange={(e)=>setAmt(e.target.value)}/>
+                <button className='border-2 flex' onClick={()=>{
+                    props.close(0)
+                    props.send(exercise,amt)
+                }}>send</button>
+                <button className='border-2 flex' onClick={()=>{
+                    props.close(0)
+                }}>close</button>
+            </div>
+        </dialog>
     )
 }

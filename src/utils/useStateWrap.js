@@ -9,9 +9,12 @@ export function useStateWrap(name, init){
     cachedData = JSON.parse(localStorage.getItem(page))
     cachedData = cachedData == null ?  null : cachedData[name]
     let [value, func]  = cachedData == null ?  useState(init) : useState(cachedData)
+
     //if state was reset (data deleted from storage)
     //update state to 'init', or it will return the prev state
-    if(cachedData == null && value != init){
+    //update: added value.length part because I was getting infinite loops with init = []
+    //this is dubious btw
+    if(cachedData == null && value != init && value.length != 0){
         func(init)
     }
 

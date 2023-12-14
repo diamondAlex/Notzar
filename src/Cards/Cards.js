@@ -6,12 +6,29 @@ export default function Cards(){
     const [ card, setCard ] = useState("")
     const [ content, setContent ] = useState("")
     const [ show, setShow ] = useState(0)
+    const [ refresh, setRefresh ] = useState(0)
+
+    function setTime(){
+        let start = 4 
+        let end = 20
+        let range = end - start
+        let date = new Date()
+        let minutes = date.getMinutes()
+        let hours = date.getHours()
+        hours = (hours + minutes/60) - start
+        setTimeout(() => {
+            console.log("updated %")
+            setRefresh(refresh + 1)
+        },612000)
+        return Math.round(hours/range*100)
+    }
 
     useEffect(() => {
         let data = localStorage.getItem("cards")
         if(!data){
             localStorage.setItem("cards",JSON.stringify([]))
         }
+        setTime()
     },[])
 
     useEffect(() =>{

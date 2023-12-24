@@ -1,3 +1,4 @@
+//this is still super dubious
 import { useState } from 'react'
 
 //serializes data in localStorage
@@ -10,13 +11,10 @@ export function useStateWrap(name, init){
     cachedData = cachedData == null ?  null : cachedData[name]
     let [value, func]  = cachedData == null ?  useState(init) : useState(cachedData)
 
-    //if state was reset (data deleted from storage)
-    //update state to 'init', or it will return the prev state
-    //update: added value.length part because I was getting infinite loops with init = []
-    //this is dubious btw
-    if(cachedData == null && value != init && value.length != 0){
-        func(init)
-    }
+    //we'll see why this fails so hard
+    //if(cachedData == null && value != init){
+        //func(init)
+    //}
 
     let wrappedFunc = (updatedState) => {
         let json = JSON.parse(localStorage.getItem(page))

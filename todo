@@ -1,7 +1,6 @@
+add vim mode to textareas
+add routines
+add a journal page
+make sure the Day page updates after x mins
 adding a page with the same name overwrites the existing page
-convert stuff.ods to this
-the reset and stop button fuck with the text areas, forcing you to erase and retype the times, either keep them working, or clear them on start
-unpause takes to long to restart
-add a component that holds cheatsheets, basically quicker versions of notes
-make sense of the webpack config file cause it's a mess
-look into the "didn't interact with the document" thing
+clean up the package.json/docker mess

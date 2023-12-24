@@ -7,7 +7,7 @@ export default function Cards(){
 
     useEffect(() =>{
         console.log('fetching')
-        fetch('http://localhost:9001', {method: "GET"}) 
+        fetch('http://localhost:9020', {method: "GET"}) 
         .then((res) =>{
             res.text().then((text) =>{
                 let json = JSON.parse(text)

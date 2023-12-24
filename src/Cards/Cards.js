@@ -36,7 +36,7 @@ export default function Cards(){
     },[show])
 
     function getCards(new_index){
-        fetch('http://localhost:9001/getcards', {method: "GET"}) 
+        fetch('http://localhost:9020/getcards', {method: "GET"}) 
         .then((res) =>{
             res.text().then((text) =>{
                 let json = JSON.parse(text)
@@ -46,6 +46,8 @@ export default function Cards(){
                 if(json.length == 1){
                     new_index = 0
                 }
+                if(json.length == 0)
+                    return
                 setCards(json)
                 setCard(json[new_index])
                 setContent(json[new_index].question)
@@ -61,7 +63,7 @@ export default function Cards(){
         }
 
         let id = card.id
-        await fetch('http://localhost:9001/delcards', {
+        await fetch('http://localhost:9020/delcards', {
             method: "POST",
             body:JSON.stringify({id:card.id})
         }) 
@@ -73,7 +75,7 @@ export default function Cards(){
     }
 
     function send_new_card(question,answer){
-        fetch('http://localhost:9001/setcards', {
+        fetch('http://localhost:9020/setcards', {
             method: "POST",
             body:JSON.stringify({question:question,answer:answer})
         }) 

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn tailwindcss -i ./src/input.css -o public/output.css --watch & webpack serve",
+    "start": "webpack serve",
+    "dev": "docker-compose -f dev_docker-compose.yml --env-file .env.dev up -d",
+    "serve": "yarn nodemon --watch server/ server/server.js",
+    "serve-dev": "NODE_ENV=dev yarn nodemon --watch server/ server/server.js",
     "tailwind": "yarn tailwindcss -i ./src/input.css -o public/output.css --watch"
   },
   "repository": {
@@ -22,7 +25,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "dotenv": "^8.2.0",
     "mariadb": "^2.5.3",
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.0.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "superagent": "^5.1.2"

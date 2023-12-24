@@ -10,6 +10,7 @@ import Practicer from './Practicer/Practicer'
 import Workout from './Workout/Workout'
 import Tracker from './Tracker/Tracker';
 import Day from './Day/Day';
+import Journal from './Journal/Journal';
 
 function App(){
     const [currentPage, setCurrentPage] = useState("")
@@ -28,6 +29,8 @@ function App(){
         switch(path){
             case '/cards':
                 return <Cards/>
+            case '/journal':
+                return <Journal/>
             case '/calendar':
                 return <Calendar/>
             case '/day':
@@ -57,6 +60,8 @@ function App(){
         <div className='p-2'>
             <div className='mb-4 pl-2 pt-1 text-lg'>
                 <a href="/current" name="/current" onClick={handleRouting}>Current</a>
+                 | 
+                <a href="/journal" name="/journal" onClick={handleRouting}>Journal</a>
                  | 
                 <a href="/cards" name="/cards" onClick={handleRouting}>Cards</a>
                  | 

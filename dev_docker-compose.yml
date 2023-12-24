@@ -6,7 +6,7 @@ services:
     image: mariadb
     restart: always
     volumes: 
-      - /var/lib/mysql/data:/var/lib/mysql
+      - "/var/lib/mysql/data:${MARIADB_DATA_DIR}"
     environment:
       MARIADB_ROOT_PASSWORD: example
       MARIADB_DATABASE: Books

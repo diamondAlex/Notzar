@@ -43,13 +43,10 @@ export default function Workout(){
     const [ current, setCurrent ] = useState("")
     const [ show, setShow ] = useState("")
 
-
     useEffect(() => {
         window.addEventListener("keydown", (e) =>{
-            if(e.key == "Enter"){
-                if(current != ""){
-                    addToWorkout(current)
-                }
+            if(e.key == "Enter" && current != ""){
+                addToWorkout(current)
             }
         })
     },[])
@@ -73,7 +70,6 @@ export default function Workout(){
         setValue(0)
     }
 
-    
     return (
         <div className="rounded border-solid border-2 w-1/3"> 
         {
@@ -97,7 +93,6 @@ export default function Workout(){
 }
 
 let className = 'align-top border-2 h-20 w-72'
-
 function DialogAdder(props){
     let { show } = props
     if(!show) return <dialog/>

@@ -1,15 +1,6 @@
 import React, { useState } from 'react'
 import { useStateWrap } from '../utils/useStateWrap'
 
-let template_pr = [
-    {
-        "name":"book",
-        "current":0,
-        "end":600,
-        "start":0,
-    }
-]
-
 let className = 'border-2 w-1/3 h-8 m-2'
 function Adder(props){
     let { addItem } = props
@@ -20,12 +11,12 @@ function Adder(props){
         <div className='border-2 w-1/3 flex m-2'>
             <textarea className={className}value={name} onChange={(e)=>setName(e.target.value)}></textarea>
             <textarea className={className}value={total} onChange={(e)=>setTotal(e.target.value)}></textarea>
-            <button className='border-2 rounded m-2'onClick={() => props.addItem(name,total)}> add </button>
+            <button className='border-2 rounded m-2'onClick={() => addItem(name,total)}> add </button>
         </div>
     )
 }
 
-export default function Tracker(props){
+export default function Tracker(){
     const [ items, setItems ] = useStateWrap("items",[])
 
     function deleteItem(name){
@@ -49,11 +40,7 @@ export default function Tracker(props){
         let today = (new Date).getTime()    
         let diff = today - startDate
         let days = Math.floor((diff/1000)/(3600*24))
-        return (
-            <span>
-                {amt / days} per days
-            </span>
-        )
+        return (<span> {amt / days} per days </span>)
     }
 
     return (

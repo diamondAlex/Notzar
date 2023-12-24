@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStateWrap } from '../utils/useStateWrap'
 
 function TimeSlot(props){
     let { hour, name, time, removeItem, editItem} = props
     let ratio = ((hour - time[0]) / (time[1]-time[0]))*100
-    ratio = ratio > 100 ? 100: ratio
-    ratio = ratio < 0 ? 0: ratio
+    ratio = ratio > 100 ? 100: ratio < 0 ? 0: ratio
 
     const [show, setShow] = useState(0)
      
@@ -33,13 +32,20 @@ export default function Day(props){
     const [ slots, setSlots ] = useStateWrap("slots",[])
     const [ hour, setHour ] = useState(0)
     const [ show, setShow ] = useState(0)
+    const [ iter, setIter ] = useState(0)
 
-    useState(()=>{
+    useEffect(()=>{
         let current_hour = (new Date).getHours()
         let mins = (new Date).getMinutes()/60
         current_hour = current_hour + mins
         setHour(current_hour) 
-    },[])
+        let timer1 = setTimeout(() => {
+            setIter(iter == 1? 0:1)
+        }, 60000)
+        return () => {
+            clearTimeout(timer1);
+        };
+    },[iter])
 
     function removeItem(name){
         let new_slots = slots.filter((e) => e.name != name)
@@ -52,8 +58,6 @@ export default function Day(props){
     }
     function editItem(name, start,end, old){
         let new_slots = slots.filter((e) => e.name != old)
-        console.log(old)
-        console.log(new_slots)
         new_slots.push({name:name,time:[start,end]})
         new_slots = new_slots.sort((a,b) => parseInt(a.time[0]) > parseInt(b.time[0]) ? 1:-1)
         setSlots(new_slots)
